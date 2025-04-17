@@ -1,0 +1,51 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    server_name: "{{ ansible_default_ipv4.address }}"
+    document_root: /var/www/html
+
+  tasks:
+    - name: Remove all Docker repositories
+      block:
+        - name: Find all Docker repo files
+          find:
+            paths: /etc/apt/sources.list.d
+            patterns: "*docker*"
+            use_regex: yes
+          register: docker_repos
+
+        - name: Delete found Docker repos
+          file:
+            path: "{{ item.path }}"
+            state: absent
+          loop: "{{ docker_repos.files }}"
+
+        - name: Clean apt cache
+          apt:
+            update_cache: yes
+            cache_valid_time: 0
+
+      ignore_errors: yes
+
+    - name: Install Nginx (with forced apt-get)
+      apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+        force_apt_get: yes
+        install_recommends: no
+
+    - name: Deploy website
+      copy:
+        src: html_demo_site-main/
+        dest: "{{ document_root }}"
+        owner: www-data
+        group: www-data
+        mode: '0755'
+
+    - name: Ensure Nginx is running
+      service:
+        name: nginx
+        state: started
+        enabled: yes
