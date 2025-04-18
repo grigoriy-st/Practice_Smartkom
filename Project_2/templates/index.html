@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+    <form method="GET" action="{{ url_for('sign_page') }}">
+        <button type="submit">Sign</button>
+    </form>
+
+    <form method="GET" action="{{ url_for('reg_page') }}">
+        <button type="submit">Registration</button>
+    </form>
+</main>
+
+{% endblock %}

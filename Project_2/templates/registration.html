@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+    <form action="{{ url_for('reg_page') }}" method="POST">
+        <div class="form-group">
+            <label for="username">Имя пользователя:</label>
+            <input type="text" id="username" name="username" required 
+                   placeholder="Введите ваше имя">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="text" id="password" name="password" required 
+                   placeholder="Введите ваш пароль">
+        </div>
+
+        <button type="submit">Зарегитрироваться</button>
+    </form>
+</main>
+
+{% endblock %}

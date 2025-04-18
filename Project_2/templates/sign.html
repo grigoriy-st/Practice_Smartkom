@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+    <form action="{{ url_for('SIGN_PAGE') }}" method="POST">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required 
+                   placeholder="Введите ваше имя">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="text" id="password" name="password" required 
+                   placeholder="Введите ваш пароль">
+        </div>
+        
+        <button type="submit">Войти</button>
+    </form>
+</main>
+
+{% endblock %}
